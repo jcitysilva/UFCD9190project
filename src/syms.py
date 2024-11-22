@@ -30,20 +30,13 @@ Options:
 
     dir_path = args ['DIR_PATH']
     if args['--name']:
-        show_duplicates(search_duplicates_by_name(dir_path))
+        show_groups(group_files_by_name(dir_path))
+
+    if args['--extension']:
+        showgroups(group_files_by_ext(dir_path))
 #:
 
-def search_duplicates_by_name(dir_path) -> dict:
-    duplicates = {}
-    for curr_dir, _, filenames in os.walk(dir_path):
-        for filename in filenames:
-            if filename not in duplicates:
-                duplicates[filename] = []
-            duplicates[filename].append(os.path.join(curr_dir, filename))
-        return duplicates
-#:
-
-def show_duplicates(duplicates: dict):
+def show_groups(duplicates: dict):
     for filename, paths in duplicates.items():
         if len(paths) > 1:
             print(filename)
@@ -52,11 +45,26 @@ def show_duplicates(duplicates: dict):
             print()
 #:
 
-# res = {
-#     'Lab.pdf': ['./Lab.pdf', './dir2/Lab.pdf'],
-#     'FahrCelsius2.cs': ['./FahrCelsius2.cs', './dir2/FahrCelsius2'],
-#     'Restaurante1.cpp': ['./Restaurante1.cpp', './dir1/subdir1/Restaurante1.cpp']
-#     }
+def group_files_by_name(dir_path) -> dict:
+    groups = {}
+    for curr_dir, _, filenames in os.walk(dir_path):
+        for filename in filenames:
+            if filename not in groups:
+                groups[filename] = []
+            groups[filename].append(os.path.join(curr_dir, filename))
+        return groups
+#:
+
+def group_files_by_extension(dir_path) -> dict:
+    groups = {}
+    for curr_dir, _, filenames in os.walk(dir_path):
+        for filename in filenames:
+            ext = os.path.splitext(filename)
+            if filename not in groups:
+                groups[ex] = []
+            groups[ext].append(os.path.join(curr_dir, filename))
+        return groups
+#:
 
 if __name__ == '__main__':
     main()
