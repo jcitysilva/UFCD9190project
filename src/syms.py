@@ -25,15 +25,22 @@ Options:
     -e, --extension
     -r PATTERN, --regex=PATTERN
 """
-    args = docopt(doc)
-    # print(args)
 
-    dir_path = args ['DIR_PATH']
+    args = docopt(doc)
+    dir_path = args.get('DIR_PATH', '.')
+
+    if not dir_path:
+        dir_path = '.'
+
     if args['--name']:
+        print("BY NAME")
         show_groups(group_files_by_name(dir_path))
+        print("_________________________________________________________________________")
 
     if args['--extension']:
-        showgroups(group_files_by_ext(dir_path))
+        print("BY EXTENSION")
+        show_groups(group_files_by_extension(dir_path))
+        print("_________________________________________________________________________")
 #:
 
 def show_groups(duplicates: dict):
@@ -59,9 +66,9 @@ def group_files_by_extension(dir_path) -> dict:
     groups = {}
     for curr_dir, _, filenames in os.walk(dir_path):
         for filename in filenames:
-            ext = os.path.splitext(filename)
-            if filename not in groups:
-                groups[ex] = []
+            _, ext = os.path.splitext(filename)
+            if ext not in groups:
+                groups[ext] = []
             groups[ext].append(os.path.join(curr_dir, filename))
         return groups
 #:
