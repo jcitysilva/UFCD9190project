@@ -8,6 +8,7 @@ Project for UFCD 9190: Introduction to programming applied to cybersecurity
 
 import os
 import pprint
+import re
 
 from docopt import docopt
 
@@ -41,6 +42,12 @@ Options:
         print("BY EXTENSION")
         show_groups(group_files_by_extension(dir_path))
         print("_________________________________________________________________________")
+
+    if args['--regex']:
+        print("BY REGEX")
+        show_groups(search_files_by_regex(dir_path))
+        print("_________________________________________________________________________")
+        
 #:
 
 def show_groups(duplicates: dict):
@@ -52,7 +59,7 @@ def show_groups(duplicates: dict):
             print()
 #:
 
-def group_files_by_name(dir_path) -> dict:
+def group_files_by_name(dir_path) -> dict[str, list[str]]:
     groups = {}
     for curr_dir, _, filenames in os.walk(dir_path):
         for filename in filenames:
@@ -62,7 +69,7 @@ def group_files_by_name(dir_path) -> dict:
         return groups
 #:
 
-def group_files_by_extension(dir_path) -> dict:
+def group_files_by_extension(dir_path) -> dict[str, list[str]]:
     groups = {}
     for curr_dir, _, filenames in os.walk(dir_path):
         for filename in filenames:
@@ -71,6 +78,15 @@ def group_files_by_extension(dir_path) -> dict:
                 groups[ext] = []
             groups[ext].append(os.path.join(curr_dir, filename))
         return groups
+#:
+
+def search_files_by_regex(dir_path, regex: str) -> list[str]:
+    found_filenames = []
+    for curr_dir, _, filenames in os.walk(dir_path):
+        for filename in filenames:
+                if re.search(regex, filename):
+                    found_filenames.append(os.path.join(curr_dir, filename))
+    return found_filenames
 #:
 
 if __name__ == '__main__':
