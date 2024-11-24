@@ -1,4 +1,4 @@
-<h1 align="center">UFCD 9190: Syms Utility</h1>
+<h1 align="center">UFCD 9190: Syms Utility & PyCracker</h1>
 
 <p align="center">
   <i>A project for UFCD 9190: Introduction to Programming Applied to Cybersecurity</i>
@@ -9,7 +9,16 @@
 <h2>📄 Overview</h2>
 
 <p>
-This project is part of UFCD 9190: <i>Introduction to Programming Applied to Cybersecurity</i>. The main purpose of the <code>syms.py</code> script is to identify and group duplicate files in a given directory based on specific criteria such as:
+This project is part of UFCD 9190: <i>Introduction to Programming Applied to Cybersecurity</i>. It includes two main utilities:
+</p>
+
+<ul>
+  <li><code>syms.py</code>: A script to identify and group duplicate files in a directory based on specific criteria.</li>
+  <li><code>pycracker.py</code>: A password-cracking utility currently under development.</li>
+</ul>
+
+<p>
+The <code>syms.py</code> script helps identify duplicates by:
 </p>
 
 <ul>
@@ -30,7 +39,7 @@ This project is part of UFCD 9190: <i>Introduction to Programming Applied to Cyb
 <h3>🛠️ General Syntax</h3>
 
 <pre>
-<code>./syms.py [OPTIONS] [DIR_PATH]</code>
+<code>src/syms.py [OPTIONS] [DIR_PATH]</code>
 </pre>
 
 <h3>Options</h3>
@@ -46,26 +55,20 @@ This project is part of UFCD 9190: <i>Introduction to Programming Applied to Cyb
 
 <h2>🔧 Example Commands</h2>
 
-<h3>1. Group Files by Extension</h3>
+<h3>1. Group Files by Name</h3>
 <pre>
-<code>./syms.py -e ~/developer/UFCD9190project/tests</code>
+<code>src/syms.py -n tests</code>
 </pre>
 
-<h3>2. Group Files by Name</h3>
+<h3>2. Group Files by Extension</h3>
 <pre>
-<code>./syms.py -n ~/developer/UFCD9190project/tests</code>
+<code>src/syms.py -e tests</code>
 </pre>
 
-<h3>3. Use the Current Directory</h3>
-<p>To test with files in the script's current directory:</p>
+<h3>3. Search Using Regex</h3>
+<p>To search for files with "test" or "Test" at the start of their name and a <code>.txt</code> extension:</p>
 <pre>
-<code>./syms.py -e</code>
-</pre>
-
-<h3>4. Advanced: Search Using Regex</h3>
-<p>To search for files with a <code>.txt</code> extension using a regex pattern:</p>
-<pre>
-<code>./syms.py -r '\.txt$' ~/developer/UFCD9190project/tests</code>
+<code>src/syms.py -r '^(test|Test).*\.txt$' tests</code>
 </pre>
 
 ---
@@ -82,7 +85,7 @@ This project is part of UFCD 9190: <i>Introduction to Programming Applied to Cyb
   </li>
   <li>Import <code>syms.py</code>:
     <pre>
-    <code>from syms import main</code>
+    <code>from src.syms import main</code>
     </pre>
   </li>
   <li>Call the <code>main</code> function to parse arguments and execute the script:
@@ -105,6 +108,14 @@ This project is part of UFCD 9190: <i>Introduction to Programming Applied to Cyb
     </pre>
   </li>
 </ul>
+
+---
+
+<h2>📂 Future Work</h2>
+
+<p>In addition to <code>syms.py</code>, the repository includes the <code>pycracker.py</code> utility, which is under development. This script aims to perform password cracking using dictionaries and hash comparisons.</p>
+
+<p align="center">Stay tuned for updates!</p>
 
 ---
 
