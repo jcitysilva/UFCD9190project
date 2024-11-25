@@ -12,6 +12,7 @@ various criteria: file content, name, extension, or regex pattern.
 import os
 import re
 import hashlib
+import sys
 from pprint import pprint
 from docopt import docopt
 
@@ -21,7 +22,7 @@ def main():
     Identifies duplicate files in a directory based on specified criteria.
 
     Usage:
-        syms.py [-c] [-n] [-e] [-r PATTERN] [DIR_PATH]
+        {script_name} [-c] [-n] [-e] [-r PATTERN] [DIR_PATH]
 
     Options:
         DIR_PATH                Directory to scan [default: .]
@@ -30,39 +31,54 @@ def main():
         -e, --extension         Group files by identical extension
         -r PATTERN, --regex=PATTERN  Group files matching a regex pattern
     """
-    args = docopt(main.__doc__)
-    dir_path = args.get('DIR_PATH', '.')
+    try:
+        # Format the docstring dynamically to inject the script name
+        args = docopt(main.__doc__.format(script_name=sys.argv[0]))
 
-    # Validate the directory path
-    if not os.path.isdir(dir_path):
-        print(f"Error: '{dir_path}' is not a valid directory.")
-        return
+        # Ensure at least one option is provided
+        if not (args['--content'] or args['--name'] or args['--extension'] or args['--regex']):
+            print("\nError: No options provided.")
+            print(main.__doc__.format(script_name=sys.argv[0]))
+            return
 
-    # Handle each grouping option
-    if args['--content']:
-        show_groups(
-            group_files_generic(dir_path, key_func=hash_file),
-            label="BY CONTENT"
-        )
+        dir_path = args.get('DIR_PATH', '.')
 
-    if args['--name']:
-        show_groups(
-            group_files_generic(dir_path, key_func=lambda name, _: name),
-            label="BY NAME"
-        )
+        # Validate the directory path
+        if not os.path.isdir(dir_path):
+            print(f"\nError: '{dir_path}' is not a valid directory.")
+            return
 
-    if args['--extension']:
-        show_groups(
-            group_files_generic(dir_path, key_func=get_extension),
-            label="BY EXTENSION"
-        )
+        # Handle each grouping option
+        if args['--content']:
+            show_groups(
+                group_files_generic(dir_path, key_func=hash_file),
+                label="BY CONTENT"
+            )
 
-    if args['--regex']:
-        regex = args['--regex']
-        show_groups(
-            group_files_generic(dir_path, key_func=lambda name, _: name if re.search(regex, name) else None),
-            label=f"BY REGEX (Pattern: {regex})"
-        )
+        if args['--name']:
+            show_groups(
+                group_files_generic(dir_path, key_func=lambda name, _: name),
+                label="BY NAME"
+            )
+
+        if args['--extension']:
+            show_groups(
+                group_files_generic(dir_path, key_func=get_extension),
+                label="BY EXTENSION"
+            )
+
+        if args['--regex']:
+            regex = args['--regex']
+            show_groups(
+                group_files_generic(dir_path, key_func=lambda name, _: name if re.search(regex, name) else None),
+                label=f"BY REGEX (Pattern: {regex})"
+            )
+
+    except Exception as e:
+        # Catch unexpected errors and display a meaningful message
+        print("\nAn error occurred:")
+        print(e)
+        print(main.__doc__.format(script_name=sys.argv[0]))
 
 
 def show_groups(duplicates: dict, label: str):
