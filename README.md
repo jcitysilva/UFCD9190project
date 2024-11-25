@@ -28,15 +28,34 @@ The <code>syms.py</code> script helps identify duplicates by:
   <li>Regex patterns</li>
 </ul>
 
-<p>The script uses the <code>docopt</code> library to parse command-line arguments and <code>os.walk</code> to traverse directories.</p>
+<p>
+The script uses the <code>docopt</code> library to parse command-line arguments, <code>os.walk</code> to traverse directories, and implements validation steps to ensure correct usage. The inclusion of <code>sys.argv[0]</code> dynamically adjusts the displayed usage instructions based on the script name or path.
+</p>
 
 ---
 
 <h2>🚀 Usage Instructions</h2>
 
-<p>To execute <code>syms.py</code>, ensure Python 3 is installed and the required dependencies are available. You can run the script directly or in a Python REPL environment.</p>
+<p>To execute <code>syms.py</code> or <code>pycracker.py</code>, ensure Python 3 is installed and the required dependencies are available. You can run the scripts directly or in a Python REPL environment.</p>
 
-<h3>🛠️ General Syntax</h3>
+<h3>🛠️ Preparing the Scripts</h3>
+
+<p>To make the scripts executable, set the correct file permissions:</p>
+
+<pre>
+<code>chmod 755 src/syms.py
+chmod 755 src/pycracker.py</code>
+</pre>
+
+<p>After setting the permissions, you can run the scripts directly without needing to specify <code>python</code>:</p>
+
+<pre>
+<code>./src/syms.py [OPTIONS] [DIR_PATH]</code>
+</pre>
+
+---
+
+<h3>🛠️ General Syntax for syms.py</h3>
 
 <pre>
 <code>src/syms.py [OPTIONS] [DIR_PATH]</code>
@@ -51,24 +70,32 @@ The <code>syms.py</code> script helps identify duplicates by:
 </ul>
 <p><code>DIR_PATH</code> is optional. If omitted, the current directory (<code>.</code>) is used.</p>
 
+<p>If incorrect or missing options are provided, the script will display the usage instructions and exit gracefully.</p>
+
 ---
 
-<h2>🔧 Example Commands</h2>
+<h2>🔧 Example Commands for syms.py</h2>
 
 <h3>1. Group Files by Name</h3>
 <pre>
-<code>src/syms.py -n tests</code>
+<code>./src/syms.py -n tests</code>
 </pre>
 
 <h3>2. Group Files by Extension</h3>
 <pre>
-<code>src/syms.py -e tests</code>
+<code>./src/syms.py -e tests</code>
 </pre>
 
 <h3>3. Search Using Regex</h3>
 <p>To search for files with "test" or "Test" at the start of their name and a <code>.txt</code> extension:</p>
 <pre>
-<code>src/syms.py -r '^(test|Test).*\.txt$' tests</code>
+<code>./src/syms.py -r '^(test|Test).*\.txt$' tests</code>
+</pre>
+
+<h3>4. Display Help</h3>
+<p>To display usage instructions, simply run:</p>
+<pre>
+<code>./src/syms.py</code>
 </pre>
 
 ---
@@ -99,24 +126,29 @@ The <code>syms.py</code> script helps identify duplicates by:
 
 <h2>📦 Requirements</h2>
 
-<p>Ensure the following are installed:</p>
+<p>To recreate the Python virtual environment (<code>.env</code>), ensure the following libraries are installed:</p>
+
 <ul>
   <li><b>Python 3.8+</b></li>
-  <li><b>docopt</b> library:
+  <li>Required Libraries:
     <pre>
-    <code>pip install docopt</code>
+    <code>pip install docopt passlib cryptography</code>
     </pre>
   </li>
 </ul>
+
+<p>You can also use the <code>requirements.txt</code> file (if provided) to install all dependencies:</p>
+<pre>
+<code>pip install -r requirements.txt</code>
+</pre>
 
 ---
 
 <h2>📂 Future Work</h2>
 
-<p>In addition to <code>syms.py</code>, the repository includes the <code>pycracker.py</code> utility, which is under development. This script aims to perform password cracking using dictionaries and hash comparisons.</p>
-
-<p align="center">Stay tuned for updates!</p>
+<p>In addition to <code>syms.py</code>, the repository includes the <code>pycracker.py</code> utility, which is currently under development. This script aims to perform password cracking using dictionaries and hash comparisons. Stay tuned for its progress!</p>
 
 ---
 
 <p align="center">Made with ❤️ for UFCD 9190.</p>
+s
