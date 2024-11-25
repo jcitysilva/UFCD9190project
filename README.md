@@ -126,21 +126,47 @@ chmod 755 src/pycracker.py</code>
 
 <h2>📦 Requirements</h2>
 
-<p>To recreate the Python virtual environment (<code>.env</code>), ensure the following libraries are installed:</p>
+<p>To run the scripts, it's recommended to set up a Python virtual environment to isolate dependencies. Follow these steps:</p>
 
-<ul>
-  <li><b>Python 3.8+</b></li>
-  <li>Required Libraries:
-    <pre>
-    <code>pip install docopt passlib cryptography</code>
-    </pre>
-  </li>
-</ul>
+<h3>1. Create and Activate a Virtual Environment</h3>
 
-<p>You can also use the <code>requirements.txt</code> file (if provided) to install all dependencies:</p>
 <pre>
-<code>pip install -r requirements.txt</code>
+<code>
+# Create the virtual environment
+python3 -m venv .env
+
+# Activate the virtual environment
+# On Linux/macOS:
+source .env/bin/activate
+# On Windows:
+.env\Scripts\activate
+</code>
 </pre>
+
+<h3>2. Install Required Libraries</h3>
+
+<p>Once the virtual environment is activated, install the dependencies:</p>
+
+<pre>
+<code>
+pip install docopt passlib cryptography
+</code>
+</pre>
+
+<h3>3. Use a requirements.txt File</h3>
+
+<p>Alternatively, you can install all dependencies from the <code>requirements.txt</code> file (if provided):</p>
+
+<pre>
+<code>
+pip install -r requirements.txt
+</code>
+</pre>
+
+---
+
+<h3>Note:</h3>
+<p>The <code>.env</code> folder is excluded from the repository using a <code>.gitignore</code> file, as it is specific to each user’s environment. Ensure your virtual environment is activated before running the scripts.</p>
 
 ---
 
