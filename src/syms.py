@@ -25,11 +25,12 @@ def main():
         {script_name} [-c] [-n] [-e] [-r PATTERN] [DIR_PATH]
 
     Options:
-        DIR_PATH                Directory to scan [default: .]
-        -c, --content           Group files by identical content
-        -n, --name              Group files by identical name
-        -e, --extension         Group files by identical extension
+        DIR_PATH                     Directory to scan [default: .]
+        -c, --content                Group files by identical content
+        -n, --name                   Group files by identical name
+        -e, --extension              Group files by identical extension
         -r PATTERN, --regex=PATTERN  Group files matching a regex pattern
+        -h, --help                   Show help
     """
     try:
         # Format the docstring dynamically to inject the script name
