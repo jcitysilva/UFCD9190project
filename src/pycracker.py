@@ -14,7 +14,8 @@ import sys
 from pprint import pprint
 from docopt import docopt
 
-DEFAULT_PWD_FILE = '/etc/shadow'
+DEFAULT_PWD_FILE = "/etc/shadow"
+
 
 def main():
     """
@@ -37,7 +38,9 @@ def main():
 
     args = docopt(doc)
     print(args)
+
+
 #:
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

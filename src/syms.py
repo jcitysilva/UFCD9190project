@@ -37,12 +37,17 @@ def main():
         args = docopt(main.__doc__.format(script_name=sys.argv[0]))
 
         # Ensure at least one option is provided
-        if not (args['--content'] or args['--name'] or args['--extension'] or args['--regex']):
+        if not (
+            args["--content"]
+            or args["--name"]
+            or args["--extension"]
+            or args["--regex"]
+        ):
             print("\nError: No options provided.")
             print(main.__doc__.format(script_name=sys.argv[0]))
             return
 
-        dir_path = args.get('DIR_PATH', '.')
+        dir_path = args.get("DIR_PATH", ".")
 
         # Validate the directory path
         if not os.path.isdir(dir_path):
@@ -50,29 +55,31 @@ def main():
             return
 
         # Handle each grouping option
-        if args['--content']:
+        if args["--content"]:
             show_groups(
-                group_files_generic(dir_path, key_func=hash_file),
-                label="BY CONTENT"
+                group_files_generic(dir_path, key_func=hash_file), label="BY CONTENT"
             )
 
-        if args['--name']:
+        if args["--name"]:
             show_groups(
                 group_files_generic(dir_path, key_func=lambda name, _: name),
-                label="BY NAME"
+                label="BY NAME",
             )
 
-        if args['--extension']:
+        if args["--extension"]:
             show_groups(
                 group_files_generic(dir_path, key_func=get_extension),
-                label="BY EXTENSION"
+                label="BY EXTENSION",
             )
 
-        if args['--regex']:
-            regex = args['--regex']
+        if args["--regex"]:
+            regex = args["--regex"]
             show_groups(
-                group_files_generic(dir_path, key_func=lambda name, _: name if re.search(regex, name) else None),
-                label=f"BY REGEX (Pattern: {regex})"
+                group_files_generic(
+                    dir_path,
+                    key_func=lambda name, _: name if re.search(regex, name) else None,
+                ),
+                label=f"BY REGEX (Pattern: {regex})",
             )
 
     except Exception as e:
@@ -133,7 +140,7 @@ def hash_file(filename: str, dir_path: str) -> str:
     file_path = os.path.join(dir_path, filename)
     try:
         hash_md5 = hashlib.md5()
-        with open(file_path, 'rb') as f:
+        with open(file_path, "rb") as f:
             for chunk in iter(lambda: f.read(4096), b""):  # Read file in chunks of 4KB
                 hash_md5.update(chunk)
         return hash_md5.hexdigest()
