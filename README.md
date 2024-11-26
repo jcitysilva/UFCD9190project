@@ -17,15 +17,12 @@ This project is part of UFCD 9190: <i>Introduction to Programming Applied to Cyb
   <li><code>pycracker.py</code>: A password-cracking utility currently under development.</li>
 </ul>
 
-<p>
-The <code>syms.py</code> script helps identify duplicates by:
-</p>
-
+<h3>Features of <code>syms.py</code>:</h3>
 <ul>
-  <li>File names</li>
-  <li>File extensions</li>
-  <li>Binary content</li>
-  <li>Regex patterns</li>
+  <li>Identify duplicate files by name.</li>
+  <li>Group files by extension.</li>
+  <li>Check for duplicate binary content (e.g., identical files).</li>
+  <li>Use regex patterns to filter specific files.</li>
 </ul>
 
 <p>
@@ -54,6 +51,38 @@ chmod 755 src/pycracker.py</code>
 <p>Alternatively, you can run the scripts using Python:</p>
 <pre>
 <code>python src/syms.py</code>
+</pre>
+
+---
+
+<h3>💡 Example Commands</h3>
+
+<p>Here are some examples using the <code>tests</code> directory:</p>
+
+<h4>1. Group Files by Name:</h4>
+<pre>
+<code>./src/syms.py -n tests</code>
+</pre>
+
+<h4>2. Group Files by Extension:</h4>
+<pre>
+<code>./src/syms.py -e tests</code>
+</pre>
+
+<h4>3. Group Files by Content:</h4>
+<pre>
+<code>./src/syms.py -c tests</code>
+</pre>
+
+<h4>4. Search Using Regex:</h4>
+<p>Find all files in <code>tests</code> starting with "test" or "Test" and ending with <code>.txt</code>:</p>
+<pre>
+<code>./src/syms.py -r '^(test|Test).*\.txt$' tests</code>
+</pre>
+
+<h4>5. Display Help:</h4>
+<pre>
+<code>./src/syms.py --help</code>
 </pre>
 
 ---
@@ -147,6 +176,23 @@ flake8 .
 <h2>📂 Future Work</h2>
 
 <p>In addition to <code>syms.py</code>, the repository includes the <code>pycracker.py</code> utility, which is currently under development. This script aims to perform password cracking using dictionaries and hash comparisons. Stay tuned for its progress!</p>
+
+---
+
+<h2>💻 Recommended Extensions</h2>
+
+<p>For an optimized development experience in VS Code, we recommend the following extensions:</p>
+
+<ul>
+  <li><b>Python</b>: Provides IntelliSense, debugging, and tool integration. Install via:
+    <pre><code>code --install-extension ms-python.python</code></pre>
+  </li>
+  <li><b>Pylance</b>: Adds enhanced IntelliSense and type-checking. Install via:
+    <pre><code>code --install-extension ms-python.vscode-pylance</code></pre>
+  </li>
+</ul>
+
+<p>Project-specific recommendations are included in the <code>.vscode/extensions.json</code> file.</p>
 
 ---
 
