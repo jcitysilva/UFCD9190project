@@ -113,34 +113,8 @@ pip install -r requirements.txt
 
 ---
 
-<h3>4. Recommended Development Tools</h3>
-
-<p>To maintain code quality and ensure consistent formatting, the following tools are recommended:</p>
-
-<ul>
-  <li><b>Black</b>: A Python code formatter that enforces PEP 8 compliance.
-    <pre>
-    <code>pip install black</code>
-    </pre>
-  </li>
-  <li><b>Flake8</b>: A Python linter for checking code style and potential errors.
-    <pre>
-    <code>pip install flake8</code>
-    </pre>
-  </li>
-</ul>
-
-<p>To apply Black and check linting, use the following commands:</p>
-
-<pre>
-<code>
-# Format all files with Black
-black .
-
-# Check for linting issues with Flake8
-flake8 .
-</code>
-</pre>
+<h3>Note:</h3>
+<p>The <code>.env</code> folder is excluded from the repository using a <code>.gitignore</code> file, as it is specific to each user’s environment. Ensure your virtual environment is activated before running the scripts.</p>
 
 ---
 
