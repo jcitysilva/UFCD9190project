@@ -1,0 +1,27 @@
+{
+    // Enable Pylance and set Python interpreter
+    "python.languageServer": "Pylance",
+    "python.defaultInterpreterPath": ".env/bin/python", // Update for your virtual environment
+  
+    // Enable auto-formatting with Black
+    "editor.formatOnSave": true,
+    "python.formatting.provider": "black",
+    "python.formatting.blackArgs": ["--line-length", "79"],
+  
+    // Linting with Flake8
+    "python.linting.enabled": true,
+    "python.linting.flake8Enabled": true,
+    "python.linting.flake8Args": ["--max-line-length=79"],
+  
+    // Exclude unnecessary files from file explorer
+    "files.exclude": {
+      "**/__pycache__": true,
+      "**/*.pyc": true
+    },
+  
+    // Better terminal integration
+    "terminal.integrated.defaultProfile.osx": "zsh",
+    "terminal.integrated.defaultProfile.linux": "bash",
+    "terminal.integrated.defaultProfile.windows": "Command Prompt"
+  }
+  
