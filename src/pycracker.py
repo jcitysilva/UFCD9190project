@@ -12,10 +12,28 @@ Tenta 'crackar' um ficheiro de palavras-passe com estrutura idêntica ao '/etc/s
 
 import sys
 from pprint import pprint
+from typing import TextIO
 from docopt import docopt
 from textwrap import dedent
 
+from passlib.hash import (
+    sha512_crypt,
+    #sha256_crypt,
+    #md5_crypt,
+    #sha1_crypt,
+    #bcrypt,
+)
+from passlib.context import CryptContext
+
 DEFAULT_PWD_FILE = "/etc/shadow"
+
+PYCRACKER_CTX = CryptContext(schemes = [
+    'sha512_crypt',
+    'sha256_crypt',
+    'md5_crypt',
+    'sha1_crypt',
+    'bcrypt',
+])
 
 def show_matches(
         pwd_filename: str,
@@ -26,9 +44,11 @@ def show_matches(
     """
     Shows all decrypted passwords and users.
     """
-    # print("AQUI:")
-    # print(f"{pwd_filename} {dict_filename} {user=} {verbose=}")
-    find_matches(pwd_filename, dict_filename, user, verbose)
+    matches = find_matches (pwd_filename, dict_filename, user, verbose)
+    if len(matches) == 0:
+        print("Não foram encontradas quaisquer palavras-passe")
+    else:
+        print(f"Foram encontradas as seguintes palavras-passe: {matches}")
 #:
 
 def find_matches(
@@ -45,8 +65,28 @@ def find_matches(
         with open(dict_filename, 'rt') as dict_file:
             for line in pwd_file:
                 curr_user, pwd_field =  line.split(':')[:2]
-                print(curr_user, pwd_field[:7], pwd_field[-7:])
-            return matches
+                if clear_text_pwd := find_pwd(pwd_field, dict_file):
+                    matches[curr_user] = clear_text_pwd
+    return matches
+#:
+
+def find_pwd(pwd_field: str, dict_file: TextIO) -> str | None: 
+    """
+    This function searches for a clear-text password in `dict_file` that hashesnto the same value as the hash in `pwd_field`.
+    Returns the clear-text password, if one is found, otherwise returns `None`.
+
+    `pwd_field` is the password fiels for a given user in a /etc/shadow-like file. Example:
+    $6$m7.33qCr$joi9qE/ZY...etc...7NqU4/LWYUiP9kxZIoJ90KJRm.
+    """
+    for clear_text_pwd in dict_file:
+        clear_text_pwd = clear_text_pwd.strip()
+        if verify_password(clear_text_pwd, pwd_field):
+            return clear_text_pwd
+    return None
+#:
+
+def verify_password(clear_text_pwd: str, pwd_field: str) -> bool:
+    return PYCRACKER_CTX.verify(clear_text_pwd, pwd_field)
 #:
 
 def main1():
