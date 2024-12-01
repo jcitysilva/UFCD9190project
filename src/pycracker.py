@@ -3,7 +3,7 @@
 """
 Project for UFCD 9190: Introduction to Programming Applied to Cybersecurity
 
-(c) João Cidade Silva, 2024
+(c) João Cidade Silva, 2024 | November 30 .v1
 
 PyCracker attempts to "crack" a password file with a structure similar to `/etc/shadow`.
 It provides two ways to handle command-line arguments:

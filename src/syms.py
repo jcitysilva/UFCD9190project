@@ -3,7 +3,7 @@
 """
 Project for UFCD 9190: Introduction to Programming Applied to Cybersecurity
 
-(c) João Cidade Silva, 2024
+(c) João Cidade Silva, 2024 | November 30 .v1
 
 This script identifies and groups duplicate files in a directory based on 
 various criteria: file content, name, extension, or regex pattern.
