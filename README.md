@@ -14,7 +14,7 @@ This project is part of UFCD 9190: <i>Introduction to Programming Applied to Cyb
 
 <ul>
   <li><code>syms.py</code>: A script to identify and group duplicate files in a directory based on specific criteria.</li>
-  <li><code>pycracker.py</code>: A password-cracking utility currently under development.</li>
+  <li><code>pycracker.py</code>: A password-cracking utility designed to work with files formatted like <code>/etc/shadow</code>.</li>
 </ul>
 
 <h3>Features of <code>syms.py</code>:</h3>
@@ -25,8 +25,16 @@ This project is part of UFCD 9190: <i>Introduction to Programming Applied to Cyb
   <li>Use regex patterns to filter specific files.</li>
 </ul>
 
+<h3>Features of <code>pycracker.py</code>:</h3>
+<ul>
+  <li>Cracks password hashes using a dictionary file.</li>
+  <li>Supports multiple hashing algorithms like SHA-512, SHA-256, MD5, and bcrypt.</li>
+  <li>Validates account statuses, ignoring locked or invalid accounts.</li>
+  <li>Verbose output for better debugging and analysis.</li>
+</ul>
+
 <p>
-The script uses the <code>docopt</code> library to parse command-line arguments, <code>os.walk</code> to traverse directories, and implements validation steps to ensure correct usage. The inclusion of <code>sys.argv[0]</code> dynamically adjusts the displayed usage instructions based on the script name or path.
+The scripts demonstrate real-world applications of Python for file and cybersecurity tasks. They include proper error handling, support for multiple hashing schemes, and the ability to adapt to various input file structures.
 </p>
 
 ---
@@ -45,17 +53,19 @@ chmod 755 src/pycracker.py</code>
 <p>After setting the permissions, you can run the scripts directly:</p>
 
 <pre>
-<code>./src/syms.py [OPTIONS] [DIR_PATH]</code>
+<code>./src/syms.py [OPTIONS] [DIR_PATH]
+./src/pycracker.py [DICTIONARY] [PASSWORDS]</code>
 </pre>
 
 <p>Alternatively, you can run the scripts using Python:</p>
 <pre>
-<code>python src/syms.py</code>
+<code>python src/syms.py
+python src/pycracker.py</code>
 </pre>
 
 ---
 
-<h3>💡 Example Commands</h3>
+<h3>💡 Example Commands for <code>syms.py</code></h3>
 
 <p>Here are some examples using the <code>tests</code> directory:</p>
 
@@ -87,57 +97,136 @@ chmod 755 src/pycracker.py</code>
 
 ---
 
-<h3>⚠️ Note for Windows Users</h3>
+<h3>💡 Example Commands for <code>pycracker.py</code></h3>
 
-<p>This project is optimized for macOS and Linux systems. Windows users can use one of the following methods to run the scripts:</p>
+<h4>1. Crack All Passwords:</h4>
+<p>Run <code>pycracker.py</code> with a dictionary file and a shadow-like password file:</p>
+<pre>
+<code>python src/pycracker.py ../tests/dict.txt ../tests/shadow.txt</code>
+</pre>
+<p>Output:</p>
+<pre>
+<code>
+[+]  jgalamba  : 'Lmxy20#a'        (SHA-512)
+[+]  formando  : 'abc'            (SHA-256)
+</code>
+</pre>
 
-<ul>
-  <li><b>WSL (Windows Subsystem for Linux)</b>: Install WSL and run the scripts in a Linux-like environment. Learn more: <a href="https://learn.microsoft.com/en-us/windows/wsl/install">WSL Installation Guide</a>.</li>
-  <li><b>Git Bash</b>: Use Git Bash, which provides a Unix-like terminal and supports commands such as <code>chmod</code>.</li>
-  <li>Run the scripts directly using <code>python</code>:
+<h4>2. Crack Passwords for a Specific User:</h4>
+<p>Use the <code>-u</code> flag to target a specific user:</p>
+<pre>
+<code>python src/pycracker.py ../tests/dict.txt ../tests/shadow.txt -u jgalamba</code>
+</pre>
+<p>Output:</p>
+<pre>
+<code>
+[+]  jgalamba  : 'Lmxy20#a'        (SHA-512)
+</code>
+</pre>
+
+<h4>3. Enable Verbose Output:</h4>
+<p>Use the <code>-v</code> flag to see additional debug information:</p>
+<pre>
+<code>python src/pycracker.py ../tests/dict.txt ../tests/shadow.txt -v</code>
+</pre>
+<p>Output:</p>
+<pre>
+<code>
+[!] Skipping user root: Account status is BLOCKED
+[+]  jgalamba  : 'Lmxy20#a'        (SHA-512)
+</code>
+</pre>
+
+<h4>4. Display Help:</h4>
+<pre>
+<code>python src/pycracker.py --help</code>
+</pre>
+
+---
+
+<h3>🌀 Virtual Environment Management</h3>
+
+<p>This project uses a Python virtual environment for managing dependencies. Follow these steps:</p>
+
+<h4>1. Create the Virtual Environment:</h4>
+<pre>
+<code>python3 -m venv .venv</code>
+</pre>
+
+<h4>2. Activate the Virtual Environment:</h4>
+
+<p>To activate the environment, run:</p>
+
+<h5>On macOS/Linux:</h5>
+<pre>
+<code>source .venv/bin/activate</code>
+</pre>
+
+<h5>On Windows:</h5>
+<pre>
+<code>.venv\Scripts\activate</code>
+</pre>
+
+<h4>3. Deactivate the Virtual Environment:</h4>
+<p>To deactivate the environment:</p>
+<pre>
+<code>deactivate</code>
+</pre>
+
+<h4>4. Reactivate the Virtual Environment:</h4>
+<p>If the terminal is closed, navigate to the project directory and activate it again using the commands above.</p>
+
+---
+
+<h3>⚠️ Troubleshooting</h3>
+
+<p>If you encounter <code>zsh: permission denied: .venv/bin/activate</code>, follow these steps:</p>
+
+<ol>
+  <li>Check permissions:
     <pre>
-    <code>python src/syms.py</code>
+    <code>chmod +x .venv/bin/activate</code>
     </pre>
   </li>
-</ul>
+  <li>Reactivate the environment:
+    <pre>
+    <code>source .venv/bin/activate</code>
+    </pre>
+  </li>
+  <li>If the issue persists, recreate the virtual environment:
+    <pre>
+    <code>
+    rm -rf .venv
+    python3 -m venv .venv
+    source .venv/bin/activate
+    </code>
+    </pre>
+  </li>
+</ol>
 
 ---
 
 <h2>📦 Requirements</h2>
 
-<h3>1. Create and Activate a Virtual Environment</h3>
+<h3>1. Install Required Libraries</h3>
+
+<p>After activating the virtual environment, install the dependencies:</p>
 
 <pre>
-<code>
-# Create the virtual environment
-python3 -m venv .env
-
-# Activate the virtual environment
-# On Linux/macOS:
-source .env/bin/activate
-# On Windows:
-.env\Scripts\activate
-</code>
+<code>pip install docopt passlib cryptography</code>
 </pre>
 
-<h3>2. Install Required Libraries</h3>
-
-<p>Once the virtual environment is activated, install the dependencies:</p>
-
+<p>To avoid conflicts, use the following command if needed:</p>
 <pre>
-<code>
-pip install docopt passlib cryptography
-</code>
+<code>python3 -m pip install passlib</code>
 </pre>
 
-<h3>3. Use a requirements.txt File</h3>
+<h3>2. Use a requirements.txt File</h3>
 
 <p>Alternatively, you can install all dependencies from the <code>requirements.txt</code> file:</p>
 
 <pre>
-<code>
-pip install -r requirements.txt
-</code>
+<code>pip install -r requirements.txt</code>
 </pre>
 
 ---
